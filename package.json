@@ -1,0 +1,69 @@
+{
+  "name": "strapi-plugin-xquik",
+  "version": "1.0.0",
+  "description": "Search X posts & read profiles from Strapi 5 with the Xquik X Twitter data API.",
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "strapi-5",
+    "xquik",
+    "x-twitter-data-api",
+    "twitter-api",
+    "x-api"
+  ],
+  "homepage": "https://xquik.com",
+  "bugs": {
+    "url": "https://github.com/Xquik-dev/strapi-plugin-xquik/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xquik-dev/strapi-plugin-xquik.git"
+  },
+  "license": "MIT",
+  "author": "Xquik",
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "strapi-plugin build",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@strapi/sdk-plugin": "6.1.1",
+    "@types/bun": "1.4.4",
+    "oxlint": "1.90.0",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5"
+  },
+  "overrides": {
+    "minimatch": "11.0.4"
+  },
+  "engines": {
+    "node": ">=20.0.0 <=26.x.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "xquik",
+    "displayName": "Xquik",
+    "description": "Search X posts & read profiles from Strapi 5 with the Xquik X Twitter data API."
+  }
+}
