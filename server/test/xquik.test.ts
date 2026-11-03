@@ -230,14 +230,18 @@ test("the config validator accepts a string and rejects a number", () => {
 });
 
 test("the exported types match the contract", () => {
-  const service = createService();
+  type Service = ReturnType<typeof createService>;
 
-  expectTypeOf(service.searchPosts)
-    .parameter(0)
-    .toEqualTypeOf<SearchPostsQuery>();
-  expectTypeOf(service.searchPosts).returns.resolves.toEqualTypeOf<PostPage>();
-  expectTypeOf(service.getUser).parameter(0).toEqualTypeOf<string>();
-  expectTypeOf(service.getUser).returns.resolves.toEqualTypeOf<UserProfile>();
+  expectTypeOf<Parameters<Service["searchPosts"]>>().toEqualTypeOf<
+    [SearchPostsQuery]
+  >();
+  expectTypeOf<
+    Awaited<ReturnType<Service["searchPosts"]>>
+  >().toEqualTypeOf<PostPage>();
+  expectTypeOf<Parameters<Service["getUser"]>>().toEqualTypeOf<[string]>();
+  expectTypeOf<
+    Awaited<ReturnType<Service["getUser"]>>
+  >().toEqualTypeOf<UserProfile>();
 
   expectTypeOf<SearchPostsQuery["q"]>().toEqualTypeOf<string>();
   expectTypeOf<SearchPostsQuery["limit"]>().toEqualTypeOf<number | undefined>();
