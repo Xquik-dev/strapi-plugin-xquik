@@ -1,0 +1,12 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc", "node", "promise"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "error",
+    "perf": "error"
+  },
+  "options": {
+    "denyWarnings": true
+  }
+}

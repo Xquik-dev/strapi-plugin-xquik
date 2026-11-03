@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+runner="$(git -C "$root" config --get checklocal.runner || true)"
+if [[ -n "$runner" && "${CHECK_LOCAL_HERE:-}" != 1 ]]; then
+    exec "$runner" "$root" "$@"
+fi
+
+for argument in "$@"; do
+    if [[ "$argument" != --no-status ]]; then
+        echo "check-local: unknown option $argument. Use --no-status or no option." >&2
+        exit 2
+    fi
+done
+
+cd "$root"
+
+step() {
+    local started="$SECONDS"
+    echo "==> $*"
+    "$@"
+    echo "<== $* took $((SECONDS - started))s"
+}
+
+step npm ci --ignore-scripts
+step bun fmt --check server scripts
+step npx oxlint
+step npx tsc --noEmit -p server/tsconfig.json
+step npm test
+step npm pack --dry-run
+step npx strapi-plugin verify
+step npm audit
+step npm audit signatures
+step bash scripts/strapi-smoke.sh
+
+echo 'All checks passed.'
