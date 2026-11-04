@@ -3,6 +3,7 @@ import { z } from "zod";
 const XQUIK_URL = "https://xquik.com";
 const API_URL = `${XQUIK_URL}/api/v1/x`;
 const REQUEST_TIMEOUT_MS = 30_000;
+const NO_USER_IDS = new Set(["", ".", ".."]);
 
 export class XquikError extends Error {
   override readonly name = "XquikError";
@@ -171,6 +172,11 @@ const xquikService = ({ strapi }: { strapi: StrapiHandle }) => ({
   },
 
   getUser(id: string): Promise<UserProfile> {
+    if (NO_USER_IDS.has(id)) {
+      return Promise.reject(
+        new XquikError("invalid_user", "Pass a user ID or username."),
+      );
+    }
     return readApi(
       strapi,
       `/users/${encodeURIComponent(id)}`,
