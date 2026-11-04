@@ -24,8 +24,10 @@ test("getUser asks for exactly the given user or refuses an ID that names none",
       async (id) => {
         const requested: string[] = [];
         globalThis.fetch = Object.assign(
-          mock((url: string) => {
-            requested.push(url);
+          mock((input: RequestInfo | URL) => {
+            requested.push(
+              input instanceof Request ? input.url : String(input),
+            );
             return Promise.resolve(Response.json(PROFILE));
           }),
           { preconnect: realFetch.preconnect },
