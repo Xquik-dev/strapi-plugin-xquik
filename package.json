@@ -47,7 +47,7 @@
     "@types/bun": "1.4.4",
     "fast-check": "4.10.2",
     "oxlint": "1.90.0",
-    "typescript": "5.9.3"
+    "typescript": "7.0.2"
   },
   "peerDependencies": {
     "@strapi/strapi": "^5"
