@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-xquik",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Search X posts & read profiles from Strapi 5 with the Xquik X Twitter data API.",
   "keywords": [
     "strapi",
