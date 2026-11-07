@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: If you use Xquik Strapi Twitter plugin, cite it using this metadata.
+title: Xquik Strapi Twitter plugin
+type: software
+abstract: >-
+  Strapi Twitter plugin for Strapi 5 by Xquik. Search X posts & read profiles
+  in your Twitter CMS with the Xquik X Twitter data API.
+authors:
+  - name: Xquik
+    website: https://xquik.com
+url: https://github.com/Xquik-dev/strapi-plugin-xquik
+repository-code: https://github.com/Xquik-dev/strapi-plugin-xquik
+license: MIT
+keywords:
+  - Xquik
+  - Strapi Twitter
+  - Strapi X
+  - Twitter CMS
+  - Strapi plugin
+  - X API
