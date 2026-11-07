@@ -1,6 +1,6 @@
-# X API & Twitter API Plugin for Strapi 5
+# Tweet API Plugin for Strapi 5 by Xquik
 
-Use this Strapi Twitter plugin by Xquik to search X posts & read profiles.
+Use this Strapi tweet API plugin by Xquik to search X posts & profiles.
 It adds an `xquik` service to your Strapi 5 server.
 
 Xquik is the world's fastest and cheapest X Twitter scraper service with the most complete X data.
