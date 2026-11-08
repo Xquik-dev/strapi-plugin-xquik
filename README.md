@@ -1,6 +1,6 @@
 # Tweet API Plugin for Strapi 5 by Xquik
 
-Use this Strapi tweet API plugin by Xquik to search posts & profiles.
+Use this Strapi tweet API plugin by Xquik to search tweets & profiles.
 It adds an `xquik` service to your Strapi 5 server.
 
 Xquik is the world's fastest and cheapest X (Twitter) scraper service with the most complete X (Twitter) data.
@@ -66,7 +66,7 @@ Checked on 2026-11-07. See each number with its date & source on [xquik.com/benc
 
 | Field | Type | Use |
 | --- | --- | --- |
-| `q` | string | Required. A search query, a post ID or a post URL. |
+| `q` | string | Required. A search query, a post ID or a tweet URL. |
 | `limit` | number | Most posts to return, from 1 to 10,000. The API default is 20. |
 | `cursor` | string | The `next_cursor` of the previous page. |
 | `queryType` | string | `Latest` lists new posts first. `Top` lists high-engagement posts first. |
