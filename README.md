@@ -1,6 +1,6 @@
 # Tweet API Plugin for Strapi 5 by Xquik
 
-Use this Strapi tweet API plugin by Xquik to search posts & profiles.
+Use this Strapi tweet API plugin by Xquik to search tweets & profiles.
 It adds an `xquik` service to your Strapi 5 server.
 
 Xquik is the world's fastest and cheapest X (Twitter) scraper service with the most complete X (Twitter) data.
@@ -53,10 +53,10 @@ Next, read the [search fields](#search-fields), the [error table](#handle-errors
 [![X (Twitter) API p99 server read time](https://img.shields.io/endpoint?url=https%3A%2F%2Fxquik.com%2Fbadges%2Frest-p99.json)](https://xquik.com/benchmarks#speed)
 [![X (Twitter) API package downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fxquik.com%2Fbadges%2Fdownloads.json)](https://xquik.com/benchmarks#downloads)
 
-- 6.1 s p99 REST server read time over 7 days, failures included ([source](https://xquik.com/benchmarks#speed)) <!-- trust:rest-p99 6050 -->
-- 63,000+ downloads of Xquik's X (Twitter) API packages across 6 registries ([source](https://xquik.com/benchmarks#downloads)) <!-- trust:downloads 63214 -->
+- 5.4 s p99 REST server read time over 7 days, failures included ([source](https://xquik.com/benchmarks#speed)) <!-- trust:rest-p99 5312 -->
+- 64,000+ downloads of Xquik's X (Twitter) API packages across 6 registries ([source](https://xquik.com/benchmarks#downloads)) <!-- trust:downloads 64173 -->
 
-Checked on 2026-11-07. See each number with its date & source on [xquik.com/benchmarks](https://xquik.com/benchmarks) or as [JSON](https://xquik.com/trust.json).
+Checked on 2026-11-08. See each number with its date & source on [xquik.com/benchmarks](https://xquik.com/benchmarks) or as [JSON](https://xquik.com/trust.json).
 
 <!-- trust:end -->
 
@@ -66,7 +66,7 @@ Checked on 2026-11-07. See each number with its date & source on [xquik.com/benc
 
 | Field | Type | Use |
 | --- | --- | --- |
-| `q` | string | Required. A search query, a post ID or a post URL. |
+| `q` | string | Required. A search query, a post ID or a tweet URL. |
 | `limit` | number | Most posts to return, from 1 to 10,000. The API default is 20. |
 | `cursor` | string | The `next_cursor` of the previous page. |
 | `queryType` | string | `Latest` lists new posts first. `Top` lists high-engagement posts first. |
