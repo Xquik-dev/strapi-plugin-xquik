@@ -1,5 +1,9 @@
 # Tweet API Plugin for Strapi 5 by Xquik
 
+[![Framer builds a tweet ticker with Xquik](https://img.youtube.com/vi/4UOSpoOoC3Y/maxresdefault.jpg)](https://youtu.be/4UOSpoOoC3Y?t=367)\
+[Watch Framer build a tweet ticker with Xquik, from 6:07](https://youtu.be/4UOSpoOoC3Y?t=367).
+This Strapi plugin calls the Xquik API.
+
 Use this Strapi tweet API plugin by Xquik to search tweets & profiles.
 It adds an `xquik` service to your Strapi 5 server.
 
