@@ -50,6 +50,7 @@
     "@types/bun": "1.4.4",
     "fast-check": "4.10.2",
     "oxlint": "1.90.0",
+    "type-coverage": "2.30.4",
     "typescript": "5.9.3"
   },
   "peerDependencies": {

@@ -21,7 +21,10 @@ npx --yes create-strapi-app@5.60.0 app --js --no-run --skip-cloud --skip-db \
     --no-example --no-git-init --use-npm --install --non-interactive
 cd app
 npm install --no-audit --no-fund "$work"/strapi-plugin-xquik-*.tgz
-cp -R "$repo/scripts/strapi-smoke-api" src/api/xquik-smoke
+for part in controllers routes; do
+    bun build "$repo/scripts/strapi-smoke-api/$part/xquik-smoke.ts" --target=node --format=cjs \
+        --outfile "src/api/xquik-smoke/$part/xquik-smoke.js"
+done
 
 node --version
 npm ls @strapi/strapi strapi-plugin-xquik --depth=0
@@ -31,7 +34,7 @@ port="$(node -e 'const server = require("node:net").createServer().listen(0, "12
 HOST=127.0.0.1 PORT="$port" ./node_modules/.bin/strapi start >"$work/server.log" 2>&1 &
 server=$!
 
-if ! node "$repo/scripts/strapi-smoke.mjs" "http://127.0.0.1:$port"; then
+if ! bun "$repo/scripts/strapi-smoke.ts" "http://127.0.0.1:$port"; then
     tail -n 80 "$work/server.log" >&2
     exit 1
 fi

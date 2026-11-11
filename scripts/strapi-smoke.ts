@@ -1,15 +1,29 @@
 import assert from "node:assert/strict";
 import { setTimeout as delay } from "node:timers/promises";
 
-const base = new URL(process.argv[2]);
+import { z } from "zod";
+
+const failure = z.object({
+  error: z.object({ code: z.string(), message: z.string() }),
+});
+const postPage = z.object({
+  tweets: z.array(z.object({ id: z.string() })),
+  has_next_page: z.boolean(),
+});
+const profile = z.object({
+  username: z.string(),
+  followers: z.number().optional(),
+});
+
+const base = new URL(z.string().parse(process.argv[2]));
 const started = performance.now();
 const startup = AbortSignal.timeout(180_000);
 
-const report = (result) => {
+const report = (result: Record<string, unknown>) => {
   process.stdout.write(`${JSON.stringify(result)}\n`);
 };
 
-const waitForHealth = async () => {
+const waitForHealth = async (): Promise<number> => {
   const status = await fetch(new URL("/_health", base), {
     signal: startup,
   }).then(
@@ -27,9 +41,12 @@ const waitForHealth = async () => {
   return waitForHealth();
 };
 
-const getJson = async (path) => {
+const getJson = async <Body>(path: string, body: z.ZodType<Body>) => {
   const response = await fetch(new URL(`/api/xquik-smoke${path}`, base));
-  return { status: response.status, body: await response.json() };
+  const json: unknown = await response.json();
+  const parsed = body.safeParse(json);
+  assert.ok(parsed.success, `${response.status} ${JSON.stringify(json)}`);
+  return { status: response.status, body: parsed.data };
 };
 
 const health = await waitForHealth();
@@ -39,21 +56,21 @@ report({
   startupSeconds: Math.round((performance.now() - started) / 1000),
 });
 
-if (process.env.XQUIK_API_KEY) {
-  const search = await getJson("/search?q=from%3ANASA&limit=2");
-  assert.equal(search.status, 200, JSON.stringify(search.body.error));
-  const posts = search.body.tweets;
-  assert.ok(posts.length > 0, "Expected at least 1 post from NASA.");
+if (process.env["XQUIK_API_KEY"]) {
+  const search = await getJson("/search?q=from%3ANASA&limit=2", postPage);
+  assert.equal(search.status, 200);
+  const [firstPost] = search.body.tweets;
+  assert.ok(firstPost, "Expected at least 1 post from NASA.");
   report({
     check: "searchPosts",
     status: search.status,
-    postCount: posts.length,
-    firstPostId: posts[0].id,
+    postCount: search.body.tweets.length,
+    firstPostId: firstPost.id,
     has_next_page: search.body.has_next_page,
   });
 
-  const user = await getJson("/users/NASA");
-  assert.equal(user.status, 200, JSON.stringify(user.body.error));
+  const user = await getJson("/users/NASA", profile);
+  assert.equal(user.status, 200);
   assert.equal(user.body.username.toLowerCase(), "nasa");
   report({
     check: "getUser",
@@ -62,7 +79,7 @@ if (process.env.XQUIK_API_KEY) {
     followers: user.body.followers,
   });
 } else {
-  const missing = await getJson("/search?q=from%3ANASA&limit=1");
+  const missing = await getJson("/search?q=from%3ANASA&limit=1", failure);
   assert.equal(missing.status, 500, JSON.stringify(missing.body.error));
   assert.equal(missing.body.error.code, "missing_api_key");
   report({

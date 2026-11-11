@@ -23,10 +23,22 @@ step() {
     echo "<== $* took $((SECONDS - started))s"
 }
 
+escape_hatches() {
+    local found
+    found="$(git ls-files '*.js' '*.cjs' '*.mjs' '*.jsx' '*.d.ts' '*.d.mts' '*.d.cts')"
+    found+="$(git grep -nE '(o[x]lint|e[s]lint)-disable|@ts-(i[g]nore|n[o]check|e[x]pect-error)|type-coverage:i[g]nore' -- ':!*.md' || true)"
+    if [[ -n "$found" ]]; then
+        printf '%s\n' "$found" 'Write each file above in TypeScript and type the value instead of suppressing its check.' >&2
+        return 1
+    fi
+}
+
+step escape_hatches
 step npm ci --ignore-scripts
 step bun fmt --check server scripts
 step npx oxlint
 step npx tsc --noEmit -p server/tsconfig.json
+step npx type-coverage --strict --at-least 100 --detail -p server/tsconfig.json
 step npm test
 step npm pack --dry-run
 step npx strapi-plugin verify

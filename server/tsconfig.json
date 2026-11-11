@@ -6,11 +6,11 @@
     "moduleResolution": "Bundler",
     "types": ["bun"],
     "strict": true,
+    "erasableSyntaxOnly": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "declaration": true,
-    "skipLibCheck": true,
     "rootDir": "../"
   },
-  "include": ["./src", "./test"]
+  "include": ["./src", "./test", "../scripts"]
 }
