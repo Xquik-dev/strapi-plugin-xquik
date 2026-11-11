@@ -40,7 +40,7 @@ const createService = (apiKey = API_KEY) =>
   });
 
 const stubFetch = (respond: () => Promise<Response>) => {
-  const fake = mock(respond);
+  const fake = mock((..._request: Parameters<typeof fetch>) => respond());
   globalThis.fetch = Object.assign(fake, { preconnect: realFetch.preconnect });
   return fake;
 };
@@ -89,14 +89,16 @@ test("searchPosts sends the exact request and keeps unknown fields", async () =>
   });
 
   expect(fake).toHaveBeenCalledTimes(1);
-  expect(fake).toHaveBeenCalledWith(
+  const [url, init] = fake.mock.calls[0] ?? [];
+  expect(url).toBe(
     "https://xquik.com/api/v1/x/tweets/search?q=from%3ANASA&limit=2&verifiedOnly=true",
-    {
-      headers: { accept: "application/json", "x-api-key": API_KEY },
-      signal: expect.any(AbortSignal),
-      redirect: "error",
-    },
   );
+  expect(init?.signal).toBeInstanceOf(AbortSignal);
+  expect(init).toEqual({
+    headers: { accept: "application/json", "x-api-key": API_KEY },
+    signal: init?.signal,
+    redirect: "error",
+  });
   expect(page).toEqual(POST_PAGE);
 });
 
