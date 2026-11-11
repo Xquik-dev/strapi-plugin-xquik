@@ -49,7 +49,7 @@
     "@strapi/sdk-plugin": "6.1.1",
     "@types/bun": "1.4.4",
     "fast-check": "4.10.2",
-    "oxlint": "1.90.0",
+    "oxlint": "1.91.0",
     "type-coverage": "2.30.4",
     "typescript": "5.9.3"
   },
