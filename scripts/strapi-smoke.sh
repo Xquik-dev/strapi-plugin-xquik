@@ -16,11 +16,13 @@ trap cleanup EXIT
 export STRAPI_TELEMETRY_DISABLED=true
 
 (cd "$repo" && npm pack --pack-destination "$work")
+mv "$work"/strapi-plugin-xquik-*.tgz "$work/strapi-plugin-xquik.tgz"
 cd "$work"
 npx --yes create-strapi-app@5.60.0 app --js --no-run --skip-cloud --skip-db \
-    --no-example --no-git-init --use-npm --install --non-interactive
+    --no-example --no-git-init --use-npm --no-install --non-interactive
 cd app
-npm install --no-audit --no-fund "$work"/strapi-plugin-xquik-*.tgz
+cp "$repo/scripts/strapi-smoke-app/package.json" "$repo/scripts/strapi-smoke-app/package-lock.json" .
+npm ci --no-audit --no-fund
 for part in controllers routes; do
     bun build "$repo/scripts/strapi-smoke-api/$part/xquik-smoke.ts" --target=node --format=cjs \
         --outfile "src/api/xquik-smoke/$part/xquik-smoke.js"
